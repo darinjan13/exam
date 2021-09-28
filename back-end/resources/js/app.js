@@ -8,6 +8,8 @@ require('./bootstrap');
 
 window.Vue = require('vue').default;
 
+import vuetify from '../plugins/vuetify'
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -28,5 +30,6 @@ Vue.component('yawa', require('./components/Yawa.vue').default);
  */
 
 const app = new Vue({
+    vuetify,
     el: '#app',
 });
