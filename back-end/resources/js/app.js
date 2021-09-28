@@ -9,6 +9,7 @@ require('./bootstrap');
 window.Vue = require('vue').default;
 
 import vuetify from '../plugins/vuetify'
+import store from '../plugins/store'
 
 /**
  * The following block of code may be used to automatically register your
@@ -31,5 +32,6 @@ Vue.component('yawa', require('./components/Yawa.vue').default);
 
 const app = new Vue({
     el: '#app',
-    vuetify
+    vuetify,
+    store
 });

@@ -1,49 +1,75 @@
 <template>
-    <v-app>
-        <v-card>
-            <v-img
-                height="200px"
-                :src="require(`../../images/${filename}.jpg`).default"
-            ></v-img>
-            <v-divider></v-divider>
-            <v-card-title>{{ name }}</v-card-title>
-            <v-card-actions>
-                <v-btn @click="addToCart">Add to cart</v-btn>
-                <v-btn @click="subtract" icon>
-                    <v-icon> mdi-minus </v-icon>
-                </v-btn>
-                {{ quantity }}
-                <v-btn @click="add" icon>
-                    <v-icon dark> mdi-plus </v-icon>
-                </v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-app>
+    <v-card>
+        <v-img
+            height="200px"
+            :src="require(`../../images/${filename}.jpg`).default"
+        ></v-img>
+        <v-divider></v-divider>
+        <v-row>
+            <v-col cols="8">
+                <v-card-title>{{ name }}</v-card-title>
+            </v-col>
+            <v-col cols="4">
+                <v-card-title>${{ price }}</v-card-title>
+            </v-col>
+        </v-row>
+        <v-card-actions>
+            <v-row>
+                <v-col cols="7">
+                    <v-btn @click="addToCart()">Add to cart</v-btn>
+                </v-col>
+                <v-col cols="5">
+                    <v-btn @click="subtract" icon>
+                        <v-icon> mdi-minus </v-icon>
+                    </v-btn>
+                    {{ quantity }}
+                    <v-btn @click="add" icon>
+                        <v-icon dark> mdi-plus </v-icon>
+                    </v-btn>
+                </v-col>
+            </v-row>
+        </v-card-actions>
+    </v-card>
 </template>
 <script>
-import Cart from './Cart.vue';
+import Cart from "./Cart.vue";
 export default {
-    name: 'Products',
+    name: "Products",
     components: { Cart },
     props: {
+        productId: Number,
         filename: String,
         name: String,
+        price: Number,
     },
     data() {
         return {
-            quantity: 0,
+            quantity: 1,
         };
     },
     methods: {
-        addToCart() {
-            console.log(this.quantity);
-            console.log(this.name);
+        addToCart(item) {
+            var item = {
+                productId: this.productId,
+                productName: this.name,
+                price: this.price * this.quantity,
+                quantity: this.quantity,
+            };
+            this.$store.dispatch("addToCart", item);
         },
         add() {
-            this.quantity++;
+            if (this.quantity > 99) {
+                this.quantity = 10;
+            } else {
+                this.quantity++;
+            }
         },
         subtract() {
-            this.quantity--;
+            if (this.quantity < 2) {
+                this.quantity = 1;
+            } else {
+                this.quantity--;
+            }
         },
     },
 };
