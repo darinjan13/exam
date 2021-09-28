@@ -30,6 +30,6 @@ Vue.component('yawa', require('./components/Yawa.vue').default);
  */
 
 const app = new Vue({
-    vuetify,
     el: '#app',
+    vuetify
 });
