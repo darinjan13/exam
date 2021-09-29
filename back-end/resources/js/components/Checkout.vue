@@ -1,10 +1,13 @@
 <template>
-    <v-app> </v-app>
+    <v-app> asdasd </v-app>
 </template>
 <script>
 export default {
-    mounted() {
-        console.log(this.$store.getters.checkedOut);
+    created() {
+        axios.get("api/burgers").then((res) => {
+            console.log(res);
+        });
+        console.log(this.$store.getters.burgers)
     },
 };
 </script>

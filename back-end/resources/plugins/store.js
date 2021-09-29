@@ -1,58 +1,70 @@
 import Vue from 'vue';
 import Vuex from 'vuex'
+import axios from 'axios';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-  state: {
-    burgers: [
-        { productId: 1, fileName: "burger", productName: "Regular Burger", quantity: 1, price: 35 },
-        { productId: 2, fileName: "cheeseburger", productName: "Cheese Burger", quantity: 1, price: 50 },
-        { productId: 3, fileName: "french_fry", productName: "French Fries", quantity: 1, price: 30 },
-        { productId: 4, fileName: "hotdog", productName: "Hotdog Sandwich", quantity: 1, price: 40 },
-    ],
-    beverages: [
-        { productId: 5, fileName: "coke", productName: "Coke", quantity: 1, price: 10 },
-        { productId: 7, fileName: "sprite", productName: "Sprite", quantity: 1, price: 10 },
-        { productId: 8, fileName: "fanta", productName: "Fanta", quantity: 1, price: 10 },
-        { productId: 9, fileName: "iced_tea", productName: "Iced Tea", quantity: 1, price: 15 },
-    ],
-    combo: [
-        { productId: 10, fileName: "burger_fries", productName: "Burger with Fries and Coke", quantity: 1, price: 40 },
-        { productId: 11, fileName: "hotdog_fries", productName: "Hotdog with Fries and Coke", quantity: 1, price: 45 },
-    ],
-    cartItems: [],
-    checkedOut: ["asdasdas"]
-  },
-  mutations: {
-    ADD_TO_CART(state, item) {
-        state.cartItems.push(item);
+    state: {
+        burgers: null,
+        beverages: null,
+        combo: null,
+        cartItems: [],
+        checkedOut: null
     },
-    REMOVE(state, index) {
-        state.cartItems.splice(index, 1)
+    mutations: {
+        ADD_TO_CART(state, item) {
+            state.cartItems.push(item);
+        },
+        REMOVE(state, index) {
+            state.cartItems.splice(index, 1)
+        },
+        CHECK_OUT(state, item) {
+            state.checkedOut = item
+            console.log(state.checkedOut)
+        },
+        SET_BURGERS(state) {
+            axios.get('api/burgers')
+                .then(res => {
+                    state.burgers = (res.data)
+                })
+        },
+        SET_BEVERAGES(state) {
+            axios.get('api/beverages')
+                .then(res => {
+                    state.beverages = (res.data)
+                })
+        },
+        SET_COMBO(state) {
+            axios.get('api/combo')
+                .then(res => {
+                    state.combo = (res.data)
+                })
+        },
     },
-    CHECK_OUT(state, item) {
-        state.checkedOut.push(item)
+    actions: {
+        addToCart(context, item) {
+            context.commit('ADD_TO_CART', item);
+        },
+        remove(context, index) {
+            context.commit('REMOVE', index);
+        },
+        checkout(context, item) {
+            context.commit('CHECK_OUT', item);
+        },
+        setProducts(context) {
+            context.commit('SET_BURGERS');
+            context.commit('SET_BEVERAGES');
+            context.commit('SET_COMBO')
+        }
+    },
+    getters: {
+        burgers: state => state.burgers,
+        beverages: state => state.beverages,
+        combo: state => state.combo,
+        cartItems: state => state.cartItems,
+        checkedOut: state => state.checkedOut,
     }
-  },
-  actions: {
-      addToCart(context, item) {
-          context.commit('ADD_TO_CART', item);
-      },
-      remove(context, index) {
-          context.commit('REMOVE', index);
-      },
-      checkout(context, item) {
-          context.commit('CHECK_OUT', item);
-      }
-  },
-  getters: {
-      burgers: state => state.burgers,
-      beverages: state => state.beverages,
-      combo: state => state.combo,
-      cartItems: state => state.cartItems,
-      checkedOut: state => state.checkedOut,
-  }
 })
 
 export default store;

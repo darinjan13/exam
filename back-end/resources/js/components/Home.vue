@@ -92,6 +92,9 @@ export default {
             dialog: false,
         };
     },
+    mounted() {
+        this.$store.dispatch('setProducts');
+    },
     computed: {
         burgers() {
             return this.$store.getters.burgers;

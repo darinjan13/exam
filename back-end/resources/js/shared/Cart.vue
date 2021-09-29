@@ -51,6 +51,9 @@ export default {
         },
         checkout() {
             this.$store.dispatch("checkout", this.cartItems);
+            if (this.total > 0) {
+                window.location.href = 'checkout'
+            }
         }
     },
 };

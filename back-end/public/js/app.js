@@ -2069,8 +2069,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  mounted: function mounted() {
-    console.log(this.$store.getters.checkedOut);
+  created: function created() {
+    axios.get("api/burgers").then(function (res) {
+      console.log(res);
+    });
+    console.log(this.$store.getters.burgers);
   }
 });
 
@@ -2183,6 +2186,9 @@ __webpack_require__.r(__webpack_exports__);
       dialog: false
     };
   },
+  mounted: function mounted() {
+    this.$store.dispatch('setProducts');
+  },
   computed: {
     burgers: function burgers() {
       return this.$store.getters.burgers;
@@ -2266,6 +2272,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     checkout: function checkout() {
       this.$store.dispatch("checkout", this.cartItems);
+
+      if (this.total > 0) {
+        window.location.href = 'checkout';
+      }
     }
   }
 });
@@ -2495,78 +2505,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
-var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
+
+vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
+var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
   state: {
-    burgers: [{
-      productId: 1,
-      fileName: "burger",
-      productName: "Regular Burger",
-      quantity: 1,
-      price: 35
-    }, {
-      productId: 2,
-      fileName: "cheeseburger",
-      productName: "Cheese Burger",
-      quantity: 1,
-      price: 50
-    }, {
-      productId: 3,
-      fileName: "french_fry",
-      productName: "French Fries",
-      quantity: 1,
-      price: 30
-    }, {
-      productId: 4,
-      fileName: "hotdog",
-      productName: "Hotdog Sandwich",
-      quantity: 1,
-      price: 40
-    }],
-    beverages: [{
-      productId: 5,
-      fileName: "coke",
-      productName: "Coke",
-      quantity: 1,
-      price: 10
-    }, {
-      productId: 7,
-      fileName: "sprite",
-      productName: "Sprite",
-      quantity: 1,
-      price: 10
-    }, {
-      productId: 8,
-      fileName: "fanta",
-      productName: "Fanta",
-      quantity: 1,
-      price: 10
-    }, {
-      productId: 9,
-      fileName: "iced_tea",
-      productName: "Iced Tea",
-      quantity: 1,
-      price: 15
-    }],
-    combo: [{
-      productId: 10,
-      fileName: "burger_fries",
-      productName: "Burger with Fries and Coke",
-      quantity: 1,
-      price: 40
-    }, {
-      productId: 11,
-      fileName: "hotdog_fries",
-      productName: "Hotdog with Fries and Coke",
-      quantity: 1,
-      price: 45
-    }],
+    burgers: null,
+    beverages: null,
+    combo: null,
     cartItems: [],
-    checkedOut: ["asdasdas"]
+    checkedOut: null
   },
   mutations: {
     ADD_TO_CART: function ADD_TO_CART(state, item) {
@@ -2576,7 +2529,23 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       state.cartItems.splice(index, 1);
     },
     CHECK_OUT: function CHECK_OUT(state, item) {
-      state.checkedOut.push(item);
+      state.checkedOut = item;
+      console.log(state.checkedOut);
+    },
+    SET_BURGERS: function SET_BURGERS(state) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('api/burgers').then(function (res) {
+        state.burgers = res.data;
+      });
+    },
+    SET_BEVERAGES: function SET_BEVERAGES(state) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('api/beverages').then(function (res) {
+        state.beverages = res.data;
+      });
+    },
+    SET_COMBO: function SET_COMBO(state) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('api/combo').then(function (res) {
+        state.combo = res.data;
+      });
     }
   },
   actions: {
@@ -2588,6 +2557,11 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     checkout: function checkout(context, item) {
       context.commit('CHECK_OUT', item);
+    },
+    setProducts: function setProducts(context) {
+      context.commit('SET_BURGERS');
+      context.commit('SET_BEVERAGES');
+      context.commit('SET_COMBO');
     }
   },
   getters: {
@@ -39728,7 +39702,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-app")
+  return _c("v-app", [_vm._v(" asdasd ")])
 }
 var staticRenderFns = []
 render._withStripped = true
