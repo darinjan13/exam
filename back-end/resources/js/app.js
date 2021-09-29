@@ -22,7 +22,8 @@ import store from '../plugins/store'
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('yawa', require('./components/Yawa.vue').default);
+Vue.component('home', require('./components/Home.vue').default);
+Vue.component('checkout', require('./components/Checkout.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

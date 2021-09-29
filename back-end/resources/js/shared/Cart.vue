@@ -29,7 +29,7 @@
     </v-simple-table>
     <v-card-actions class="justify-end">
         <div class="text-h5 mx-10">Total: {{total}}</div>
-        <v-btn>Checkout</v-btn>
+        <v-btn @click="checkout">Checkout</v-btn>
     </v-card-actions>
     </v-card>
 </template>
@@ -49,6 +49,9 @@ export default {
         remove(index) {
             this.$store.dispatch("remove", index);
         },
+        checkout() {
+            this.$store.dispatch("checkout", this.cartItems);
+        }
     },
 };
 </script>
