@@ -7,10 +7,10 @@
         <v-divider></v-divider>
         <v-row>
             <v-col cols="8">
-                <v-card-title>{{ name }}</v-card-title>
+                <div class="ml-5 text-h6">{{ name }}</div>
             </v-col>
             <v-col cols="4">
-                <v-card-title>${{ price }}</v-card-title>
+                <div class="text-h6">₱{{ price }}</div>
             </v-col>
         </v-row>
         <v-card-actions>

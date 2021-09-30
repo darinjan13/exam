@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+// Route::get('/{any}', function () {
+//     return view('home');
+// })->where("any", ".*");
+
+
+Route::get('/{vue_capture?}', function () {
     return view('home');
-});
-Route::get('/checkout', function() {
-    return view('checkout');
-});
+   })->where('vue_capture', '[\/\w\.-]*');

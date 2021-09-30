@@ -14,10 +14,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item, index) in cartItems" :key="item.productId">
+                <tr v-for="(item, index) in cartItems" :key="item.id">
                     <td>{{ item.productName }}</td>
                     <td>{{ item.quantity }}</td>
-                    <td>{{ item.price }}</td>
+                    <td>₱{{ item.price }}</td>
                     <td>
                         <v-btn icon @click="remove(index)">
                             <v-icon> mdi-delete </v-icon>
@@ -27,15 +27,32 @@
             </tbody>
         </template>
     </v-simple-table>
-    <v-card-actions class="justify-end">
-        <div class="text-h5 mx-10">Total: {{total}}</div>
-        <v-btn @click="checkout">Checkout</v-btn>
+    {{coupon}}
+    <v-card-actions>
+        <v-col class="mr-n15" cols=4>
+            <div class="text-subtitle-1">COUPON 10% DISCOUNT:</div>
+        </v-col>
+        <v-col cols=3>
+            <v-text-field v-model="coupon"></v-text-field>
+        </v-col>
+        <v-col cols=3>
+            <div class="text-h5">Total: ₱{{total}}</div>
+        </v-col>
+        <v-col cols=2>
+            <v-btn @click="checkout">Confirm</v-btn>
+        </v-col>        
     </v-card-actions>
     </v-card>
 </template>
 <script>
 export default {
     name: "Cart",
+    data() {
+        return {
+            coupon: null,
+            withCoupon: false,
+        }
+    },
     computed: {
         cartItems() {
             return this.$store.getters.cartItems;
@@ -52,9 +69,22 @@ export default {
         checkout() {
             this.$store.dispatch("checkout", this.cartItems);
             if (this.total > 0) {
-                window.location.href = 'checkout'
+                if (this.coupon == "GO2018") {
+                    this.withCoupon = true
+                    this.$store.dispatch("withCoupon", this.withCoupon)
+                    this.$router.push('/checkout')
+                } else if (this.coupon == null) {
+                    this.$store.dispatch("withCoupon", this.withCoupon)
+                    this.$router.push('/checkout')
+                } else {
+                    alert("Invalid Coupon")
+                    this.coupon = null
+                }
             }
         }
     },
 };
 </script>
+<style scoped>
+    
+</style>

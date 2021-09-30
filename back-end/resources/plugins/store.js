@@ -10,7 +10,8 @@ const store = new Vuex.Store({
         beverages: null,
         combo: null,
         cartItems: [],
-        checkedOut: null
+        checkedOut: null,
+        withCoupon: false
     },
     mutations: {
         ADD_TO_CART(state, item) {
@@ -21,7 +22,6 @@ const store = new Vuex.Store({
         },
         CHECK_OUT(state, item) {
             state.checkedOut = item
-            console.log(state.checkedOut)
         },
         SET_BURGERS(state) {
             axios.get('api/burgers')
@@ -41,6 +41,9 @@ const store = new Vuex.Store({
                     state.combo = (res.data)
                 })
         },
+        SET_COUPON(state, withCoupon) {
+            state.withCoupon = withCoupon
+        }
     },
     actions: {
         addToCart(context, item) {
@@ -56,6 +59,9 @@ const store = new Vuex.Store({
             context.commit('SET_BURGERS');
             context.commit('SET_BEVERAGES');
             context.commit('SET_COMBO')
+        },
+        withCoupon(context, withCoupon) {
+            context.commit('SET_COUPON', withCoupon);
         }
     },
     getters: {
@@ -64,6 +70,7 @@ const store = new Vuex.Store({
         combo: state => state.combo,
         cartItems: state => state.cartItems,
         checkedOut: state => state.checkedOut,
+        withCoupon: state => state.withCoupon,
     }
 })
 

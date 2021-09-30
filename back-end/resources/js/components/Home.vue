@@ -26,10 +26,10 @@
                             <v-col
                                 v-for="burger in burgers"
                                 :key="burger.productId"
-                                cols="3"
+                                cols="4"
                             >
                                 <Products
-                                    :productId="burger.productId"
+                                    :productId="burger.id"
                                     :filename="burger.fileName"
                                     :name="burger.productName"
                                     :price="burger.price"
@@ -42,10 +42,10 @@
                             <v-col
                                 v-for="drinks in beverages"
                                 :key="drinks.productId"
-                                cols="3"
+                                cols="4"
                             >
                                 <Products
-                                    :productId="drinks.productId"
+                                    :productId="drinks.id"
                                     :filename="drinks.fileName"
                                     :name="drinks.productName"
                                     :price="drinks.price"
@@ -57,11 +57,11 @@
                         <Dropdown title="Combo">
                             <v-col
                                 v-for="meal in combo"
-                                :key="meal.productId"
-                                cols="6"
+                                :key="meal.id"
+                                cols="4"
                             >
                                 <Products
-                                    :productId="meal.productId"
+                                    :productId="meal.id"
                                     :filename="meal.fileName"
                                     :name="meal.productName"
                                     :price="meal.price"
@@ -72,7 +72,7 @@
                 </v-row>
             </v-card>
         </v-container>
-        <v-dialog v-model="dialog" width="700px">
+        <v-dialog v-model="dialog" width="800px">
             <Cart />
         </v-dialog>
     </v-app>
