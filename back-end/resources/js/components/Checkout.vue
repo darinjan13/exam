@@ -96,7 +96,7 @@ export default {
                 details: this.cartItems,
                 discount: this.discount,
                 tax: 0.12,
-                total: this.total
+                total: this.total 
             }
             axios.post('api/place', pota).then(res => {
                 console.log(res.data)
